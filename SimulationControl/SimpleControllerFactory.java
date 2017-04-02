@@ -11,12 +11,16 @@ public class SimpleControllerFactory {
         return new SimulationController(factory);
     }
 
-	public Controller createCollisionDetectionController(ArrayList<Driver> d) {
-		return  new CollisionDetectionController(d);
+	public CollisionDetectionController createCollisionDetectionController(SimulationController _controller, ArrayList<Driver> d) {
+		return  new CollisionDetectionController(_controller, d);
 	}
 
-	public Controller createGraphicsController(double screenWidth, double screenHeight, ArrayList<Driver> drivers, Road road){
-		return new GraphicsController(screenWidth, screenHeight, drivers, road);
+	public GraphicsController createGraphicsController(SimulationController _controller, double screenWidth, double screenHeight, ArrayList<Driver> drivers, Road road){
+		return new GraphicsController(_controller, screenWidth, screenHeight, drivers, road);
+	}
+	
+	public DriverController createDriverController(SimulationController _controller, ArrayList<Driver> _drivers) {
+		return new DriverController(_controller, _drivers);
 	}
 
 }

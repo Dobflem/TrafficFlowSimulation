@@ -13,8 +13,8 @@ public class Display implements IDisplay {
     public Display(String title, double screenWidth, double screenHeight)  {
         this.title = title;
         this.screen = new Dimension();
-        this.width = (int)(screenWidth * 1.6);
-        this.height = (int)(screenHeight * 1.6);
+        this.width = (int)(screenWidth * 1.9);
+        this.height = (int)(screenHeight * 1.9);
         screen.setSize(screenWidth, screenHeight);
     }
 
@@ -28,13 +28,13 @@ public class Display implements IDisplay {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setMinimumSize(new Dimension(this.width, this.height));
+        frame.setLocation(0, 0);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
         canvas = new Canvas();
         canvas.setPreferredSize(this.screen);
-        canvas.setSize(this.width * 2, this.height * 2);
+        canvas.setSize(this.width, this.height);
         
-        System.out.printf("Width - %d, Height - %d\n", this.width, this.height);
-
         frame.add(canvas);
         frame.pack();
 

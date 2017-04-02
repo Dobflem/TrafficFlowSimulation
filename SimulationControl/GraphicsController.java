@@ -13,18 +13,27 @@ public class GraphicsController extends Controller implements Runnable {
     private String title;
     private double screenWidth, screenHeight;
     public DrawingComponent draw;
+    private SimulationController controller;
 
     //private Thread thread;
     private IDisplay display;
 
-    public GraphicsController(double screenWidth, double screenHeight, ArrayList<Driver> drivers, Road road) {
+    public GraphicsController(SimulationController _controller, double screenWidth, double screenHeight, ArrayList<Driver> drivers, Road road) {
         this.title = "Traffic Flow Simulation";
-        this.draw = new DrawingComponent(screenWidth, screenHeight, road, drivers);
+        this.display = new Display(title, screenWidth, screenHeight);
+        this.display.createDisplay();
+        this.draw = new DrawingComponent(this.display, screenWidth, screenHeight, road, drivers);
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.controller = _controller;
+    }
+    
+    public void render() {
+    	this.draw.render();
     }
 
     public void run() {
+    	/*
         init();
 
         while(true) {
@@ -35,13 +44,10 @@ public class GraphicsController extends Controller implements Runnable {
         		ex.printStackTrace();
         	}
         }
+        */
     }
 
     public void init() {
-        display = new Display(title, screenWidth, screenHeight);
-        display.createDisplay();
+        
     }
 }
-
-
-

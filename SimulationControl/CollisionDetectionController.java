@@ -10,9 +10,11 @@ public class CollisionDetectionController extends Controller implements Runnable
 	private I_CollisionDetectionSubject cd;
 	private ArrayList<Driver> drivers;
 	private boolean running;
+	private SimulationController controller;
 	
 	
-	public CollisionDetectionController(ArrayList<Driver> d) {
+	public CollisionDetectionController(SimulationController _controller, ArrayList<Driver> d) {
+		this.controller = _controller;
 		this.cd  = new CollisionDetection();
 		this.drivers = d;
 		this.running = true;
@@ -20,12 +22,22 @@ public class CollisionDetectionController extends Controller implements Runnable
 	}
 	
 	public void registerVehicles() {
-		for(Driver d : drivers)
+		for(Driver d : drivers) {
 			cd.registerObserver(d.getDriverVehicle());
+		}
+	}
+	
+	public void checkForCollisions() {
+		for(Driver d : drivers){
+			if(!(d.getDriverVehicle().isCrashed())) {
+				cd.checkForCollisions(d.getDriverVehicle().getID(), d.getDriverVehicle().getCurrentCell(), d.getDriverVehicle().getLane());
+			}
+		}
 	}
 	
 	@Override
 	public void run() {
+		/*
 		try{
 			Thread.sleep(2000);
 		}
@@ -41,7 +53,7 @@ public class CollisionDetectionController extends Controller implements Runnable
 				if(!(d.getDriverVehicle().isCrashed()))
 					cd.checkForCollisions(d.getDriverVehicle().getID(), d.getDriverVehicle().getCurrentCell(), d.getDriverVehicle().getLane());
 			}
-		}		
+		}*/		
 	}
 	
 	public void stopRunning() {

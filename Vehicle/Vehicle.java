@@ -1,7 +1,13 @@
 package Vehicle;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 import Road.Road;
 import Road.Lane;
@@ -20,6 +26,7 @@ public class Vehicle implements I_VehicleCollisionObserver {
 	private Color color;
 	private String imagePath;
 	private I_VehicleState state;
+	private BufferedImage carImage;
 	
 	public Vehicle(Point xy, int cellId, Road road, int laneId, int vWidth, int vHeight, int id, Color color){
 		this.position = xy;
@@ -33,6 +40,7 @@ public class Vehicle implements I_VehicleCollisionObserver {
         this.currentSpeed = 0.0;
         this.vehicleId = id;
         this.state = new VehicleDrivingState();
+        this.carImage = createCarImage(this.getVehicleHeight(), this.getVehicleWidth());
 	}
 	
 	public Vehicle(Point xy, int cellId, Road road, int laneId, int vWidth, int vHeight, int id, String imagePath){
@@ -48,6 +56,7 @@ public class Vehicle implements I_VehicleCollisionObserver {
 		 this.currentSpeed = 0.0;
 	     this.vehicleId = id;
 		 this.state = new VehicleDrivingState();
+		 this.carImage = createCarImage(this.getVehicleHeight(), this.getVehicleWidth());
 
 	 }
 
@@ -175,6 +184,28 @@ public class Vehicle implements I_VehicleCollisionObserver {
     
     public I_VehicleState getState() {
         return this.state;
+    }
+    
+    public BufferedImage getCarImage() {
+    	return this.carImage;
+    }
+    
+    private BufferedImage createCarImage(int newW, int newH) {
+    	BufferedImage car, resized = null;
+    	Image tmp;
+    	
+        try {
+            car = ImageIO.read(new File(this.imagePath));
+            tmp = car.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+            resized = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resized.createGraphics();
+            g2d.drawImage(tmp, 0, 0, null);
+            g2d.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resized;
     }
 }
 

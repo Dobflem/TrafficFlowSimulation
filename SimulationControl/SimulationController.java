@@ -17,9 +17,10 @@ public class SimulationController extends Controller {
     private final int agressive_drivers = 1;
     private double screen_width, screen_height;
     private Point center;
-    private Controller graphics_manager; 
+    private GraphicsController graphicsController; 
     private Road road;
-    private Controller collisionController;
+    private CollisionDetectionController collisionController;
+    private DriverController driverController;
 
     public SimulationController(SimpleControllerFactory c_fac) {
     	SimpleDriverFactory d_fac = new SimpleDriverFactory();
@@ -35,8 +36,10 @@ public class SimulationController extends Controller {
 
     	addDriversToRoad(d_fac, v_fac);
 
-    	this.collisionController = c_fac.createCollisionDetectionController(drivers);
-    	this.graphics_manager = c_fac.createGraphicsController(this.screen_width, this.screen_height, this.drivers, this.road);
+    	this.driverController = c_fac.createDriverController(this, this.drivers);
+    	this.collisionController = c_fac.createCollisionDetectionController(this, drivers);
+    	this.graphicsController = c_fac.createGraphicsController(this, this.screen_width, this.screen_height, this.drivers, this.road);
+    	
     }
 
     private void addDriversToRoad(SimpleDriverFactory d_fac, SimpleVehicleFactory v_fac) {
@@ -53,22 +56,43 @@ public class SimulationController extends Controller {
         drivers.add(d1);
         drivers.add(d2);
         drivers.add(d3);
-        //drivers.add(d4);
-        //drivers.add(d5);
-        //drivers.add(d6);
-        //drivers.add(d7);
-        //drivers.add(d8);
-        //drivers.add(d9);
+        drivers.add(d4);
+        drivers.add(d5);
+        drivers.add(d6);
+        drivers.add(d7);
+        drivers.add(d8);
+        drivers.add(d9);
+    }
+    
+    private void Sleep(int ms) {
+    	try {
+    		Thread.sleep(ms);
+    	} catch(InterruptedException ex) {
+    		
+    	}
     }
     
     public void begin() {
+    	
+    	while(true) {
+    		long startTime = System.nanoTime();
+    		this.driverController.drive();
+    		this.collisionController.checkForCollisions();
+    		this.graphicsController.render();
+    		long endTime = System.nanoTime();
+    		long duration = (endTime - startTime) / 1000000;
+    		Sleep(Math.max((33 - (int)duration), 0));
+    	}
+    	
+    	/*
     	// Start the drivers driving
     	for (Driver d : drivers) {
     		new Thread(d).start();
     	}
-    	
-    	new Thread(collisionController).start();
+    	*/
+    	// new Thread(this.collisionController).start();
+    	// new Thread(this.driverController).start();
     	// Start showing them on screen
-    	graphics_manager.run();
+    	// graphics_manager.run();
     }
 }
