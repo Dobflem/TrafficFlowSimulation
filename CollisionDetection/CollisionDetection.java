@@ -46,7 +46,7 @@ public class CollisionDetection implements I_CollisionDetectionSubject {
 			if((otherCarID != -1) && (otherCarID != vehicleID)) {
 				crash = true;
 				this.notifyObservers(vehicleID, otherCarID);
-				System.out.println("Crash between:"+vehicleID+" + "+otherCarID);
+				// System.out.println("Crash between:"+vehicleID+" + "+otherCarID);
 			}
 			
 			i = (i+1)%cell_count;

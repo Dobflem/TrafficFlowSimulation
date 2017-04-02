@@ -74,9 +74,14 @@ public class SimulationController extends Controller {
     
     public void begin() {
     	
+    	// Start the drivers driving
+    	for (Driver d : drivers) {
+    		new Thread(d).start();
+    	}
+    	
     	while(true) {
     		long startTime = System.nanoTime();
-    		this.driverController.drive();
+    		// this.driverController.drive();
     		this.collisionController.checkForCollisions();
     		this.graphicsController.render();
     		long endTime = System.nanoTime();
@@ -84,12 +89,6 @@ public class SimulationController extends Controller {
     		Sleep(Math.max((33 - (int)duration), 0));
     	}
     	
-    	/*
-    	// Start the drivers driving
-    	for (Driver d : drivers) {
-    		new Thread(d).start();
-    	}
-    	*/
     	// new Thread(this.collisionController).start();
     	// new Thread(this.driverController).start();
     	// Start showing them on screen

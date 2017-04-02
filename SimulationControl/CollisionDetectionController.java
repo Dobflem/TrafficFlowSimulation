@@ -37,23 +37,16 @@ public class CollisionDetectionController extends Controller implements Runnable
 	
 	@Override
 	public void run() {
-		/*
-		try{
-			Thread.sleep(2000);
-		}
-		catch(InterruptedException ex){}
-			
+		Timer t = new Timer(32);
 		while(running) {
-			try{
-				Thread.sleep(20);
-			}
-			catch(InterruptedException ex){}
-			
+			t.start();
 			for(Driver d : drivers){
-				if(!(d.getDriverVehicle().isCrashed()))
+				if(!(d.getDriverVehicle().isCrashed())) {
 					cd.checkForCollisions(d.getDriverVehicle().getID(), d.getDriverVehicle().getCurrentCell(), d.getDriverVehicle().getLane());
+				}
 			}
-		}*/		
+			t.end();
+		}
 	}
 	
 	public void stopRunning() {

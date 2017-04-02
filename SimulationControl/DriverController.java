@@ -20,22 +20,4 @@ public class DriverController extends Controller {
 		}
 	}
 	
-	/*
-	public void run() {
-		while(true) {
-			for(Driver d : this.drivers) {
-				d.drive();
-			}
-		}
-	}
-	*/
-	
-	private void sleep(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException ex) {
-			
-		}
-	}
-	
 }
