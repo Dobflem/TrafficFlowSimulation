@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import Vehicle.Vehicle;
 import Road.*;
 import Driver.Driver;
-import javafx.scene.shape.Circle;
-
 import javax.imageio.ImageIO;
 
 public class DrawingComponent implements IDrawingComponent{
